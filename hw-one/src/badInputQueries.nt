@@ -3,6 +3,7 @@ Starbucks sells Donuts.
 Starbucks sells ?.
 ? has_store_location HarvardSquare.
 Lucy ? ?.
+? should error
 Joe plays_sport ?.
 Lucy plays_sport ?.
 ? plays_sport ?.

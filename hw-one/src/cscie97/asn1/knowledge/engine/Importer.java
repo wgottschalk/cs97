@@ -3,42 +3,31 @@ package cscie97.asn1.knowledge.engine;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-class ImportException extends Exception {
-    ImportException(String msg) {
-        super(msg);
-    }
-}
 
 public class Importer {
-
-    public static void importTripleFile(String filename) {
+    /**
+     * Public method for importing triples from N_Triple formatted file into the KnowledgeGraph.
+     *
+     * @param filename the name of the file containing the queries. Must be a valid file.
+     * @throws ImportException if any of the queries in the file is malformed
+     */
+    public void importTripleFile(String filename) throws ImportException {
         try {
-            List<String> lines = Files.readAllLines(Paths.get(filename));
-            List<Triple> tripleList = new ArrayList<>();
+            var lines = Files.readAllLines(Paths.get(filename));
+            var knowledgeGraph = KnowledgeGraph.getInstance();
 
-            for (String line : lines) {
+            for (var line : lines) {
                 if (line.trim().length() == 0) continue;
 
-                String[] tripleIds = line.replace(".", "").split("[\\s]");
-                if (tripleIds.length != 3) {
-                    throw new ImportException("could not process: " + line);
+                var tripleIds = line.toLowerCase().replace(".", "").split("[\\s]");
+                if (tripleIds.length != 3 || line.charAt(line.length() - 1) != '.') {
+                    throw new ImportException("Error Importing Triple. Could not process: " + line);
                 }
 
-                Node subject = KnowledgeGraph.getNode(tripleIds[0]);
-                Predicate predicate = KnowledgeGraph.getPredicate(tripleIds[1]);
-                Node object = KnowledgeGraph.getNode(tripleIds[2]);
-                tripleList.add(KnowledgeGraph.getTriple(subject, predicate, object));
+                knowledgeGraph.importTriple(tripleIds[0], tripleIds[1], tripleIds[2]);
             }
-
-            // KnowledgeGraph.getInstance().importTriples(tripleList);
-
         } catch (IOException e) {
-            System.out.println("Could not read file " + filename);
-        } catch (ImportException e) {
-            System.out.println(e.getMessage());
+            throw new ImportException("Could not read file: " + filename);
         }
     }
 }
