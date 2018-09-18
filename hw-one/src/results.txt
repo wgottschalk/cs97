@@ -1,0 +1,27 @@
+javac cscie97/asn1/knowledge/engine/*.java cscie97/asn1/test/*.java
+java -cp . cscie97.asn1.test.TestDriver inputTriples.nt inputQueries.nt
+starbucks sells coffee
+<null>
+starbucks sells cake
+starbucks sells coffee
+harvardcoop has_store_location harvardsquare
+starbucks has_store_location harvardsquare
+lucy works_with joe
+lucy plays_sport soccer
+lucy works_at starbucks
+lucy works_at harvardcoop
+lucy likes_to_eat cake
+lucy has_friend joe
+lucy plays_instrument guitar
+lucy lives_near harvardsquare
+joe plays_sport cricket
+joe plays_sport soccer
+joe plays_sport hockey
+lucy plays_sport soccer
+joe plays_sport cricket
+lucy plays_sport soccer
+joe plays_sport soccer
+joe plays_sport hockey
+harvardcoop sells coffee
+starbucks sells coffee
+lucy works_at harvardcoop
