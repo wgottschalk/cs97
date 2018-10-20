@@ -1,181 +1,260 @@
-package model.cscie97.asn2.housemate.model;
+package cscie97.asn2.housemate.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- *
- * @generated
+ * This is the service which controls all of the business objects in the bounded context.
+ * It implements the ModelService interface.
  */
 
 public class HouseMateModelService implements ModelService {
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
 
-    private KnowledgeGraph knowledgeGraph;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
+    //    private KnowledgeGraph knowledgeGraph = KnowledgeGraph.getInstance();
     private String authToken;
+    public Map<String, House> houses = new HashMap<>();
+    public Map<String, Occupant> occupants = new HashMap<>();
+    private static ModelService instance;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public Set<House> houses;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     */
-    public HouseMateModelService() {
-        super();
+    private HouseMateModelService() {
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public String createOccupant(String name, OccupantType type) {
-        // TODO implement me
-        return "";
+    public static ModelService getInstance() {
+        if (instance == null) {
+            instance = new HouseMateModelService();
+        }
+        return instance;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    public void addOccupantToHouse(String occupantName, String houseName)
+        throws EntityNotFoundException
+    {
+        if (!occupants.containsKey(occupantName))  {
+            throw new EntityNotFoundException("occupant", occupantName);
+        }
 
-    public String createRoom(String name, int floor, RoomType type, String houseName, int windows) {
-        // TODO implement me
-        return "";
+        if(!houses.containsKey(houseName)) {
+            throw new EntityNotFoundException("house", houseName);
+        }
+
+        var house = houses.get(houseName);
+        var occupant = occupants.get(occupantName);
+
+        var occupantMap = house.getOccupants();
+        occupantMap.put(occupantName, occupant);
+        house.setOccupants(occupantMap);
+
+        var houseMap = occupant.getHouses();
+        houseMap.put(houseName, house);
+        occupant.setHouses(houseMap);
+
+        return;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public String createAppliance(String name, ApplianceType type, String roomPath, int energyUsage)
+        throws EntityNotFoundException, EntityAlreadyExistsException
+    {
+        var path = roomPath.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) throw new EntityNotFoundException("house", path[0]);
 
-    public String createHouse(String name) {
-        // TODO implement me
-        return "";
+        var room = house.getRooms().get(path[1]);
+        if (room == null) throw new EntityNotFoundException("room", path[1]);
+
+        var appliance = new Appliance(name, room, type, energyUsage);
+        room.addDevice(name, appliance);
+
+        return appliance.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public void setDeviceStatus() {
-        // TODO implement me
+    @Override
+    public String createHouse(String name, String address) throws EntityAlreadyExistsException {
+        if (houses.containsKey(name)) {
+            throw new EntityAlreadyExistsException("house", name);
+        }
+        var house = new House(name, address);
+        houses.put(name, house);
+        return house.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public String createOccupant(String name, OccupantType type) throws EntityAlreadyExistsException {
+        if (occupants.containsKey(name)) {
+            throw new EntityAlreadyExistsException("occupant", name);
+        }
+        var occupant = new Occupant(name, type);
+        occupants.put(name, occupant);
 
-    public void showConfiguration() {
-        // TODO implement me
+        return occupant.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public String createRoom(String name, int floor, RoomType type, String houseName, int windows)
+            throws EntityNotFoundException, EntityAlreadyExistsException {
+        if (!houses.containsKey(houseName)) {
+            throw new EntityNotFoundException("house", houseName);
+        }
 
-    public String createSensor(String name, SensorType type, String room) {
-        // TODO implement me
-        return "";
+        var house = houses.get(houseName);
+        var rooms = house.getRooms();
+        if (rooms.containsKey(name)) {
+            throw new EntityAlreadyExistsException("room", name);
+        }
+
+        var room = new Room(name, floor, type, windows);
+        rooms.put(name, room);
+        house.setRooms(rooms);
+
+        return room.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public String createSensor(String name, SensorType type, String roomPath)
+        throws EntityNotFoundException, EntityAlreadyExistsException
+    {
+        var path = roomPath.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) {
+            throw new EntityNotFoundException("house", path[0]);
+        }
+        var room = house.getRooms().get(path[1]);
+        if (room == null) {
+            throw new EntityNotFoundException("room", path[1]);
+        }
 
-    public void showDeviceStatus() {
-        // TODO implement me
+        if (room.getDevices().containsKey(name)) {
+            throw new EntityAlreadyExistsException("sensor", name);
+        }
+
+        var sensor = new Sensor(name, room, type);
+        room.addDevice(name, sensor);
+
+        return sensor.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public boolean setDeviceStatus(String name, String status, String value)
+        throws EntityNotFoundException
+    {
+        var path = name.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) throw new EntityNotFoundException("house", path[0]);
 
-    public String createAppliance(String name, ApplianceType type, String room, int energyUsage) {
-        // TODO implement me
-        return "";
+        var room = house.getRooms().get(path[1]);
+        if (room == null) throw new EntityNotFoundException("room", path[1]);
+
+        var device = room.getDevices().get(path[2]);
+        if (device == null) throw new EntityNotFoundException("device", path[2]);
+
+        device.setStatus(status, value);
+        return true;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public Map<String, String> showDeviceStatus(String name)
+        throws EntityNotFoundException
+    {
+        var path = name.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) throw new EntityNotFoundException("house", path[0]);
 
-    public void showEnergyUsage() {
-        // TODO implement me
+        var room = house.getRooms().get(path[1]);
+        if (room == null) throw new EntityNotFoundException("room", path[1]);
+
+        var device = room.getDevices().get(path[2]);
+        if (device == null) throw new EntityNotFoundException("device", path[2]);
+
+        return device.getStatus();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    @Override
+    public String showDeviceStatus(String name, String status)
+        throws EntityNotFoundException
+    {
+        var path = name.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) throw new EntityNotFoundException("house", path[0]);
 
-    public void addOccupantToHouse(String ocupantName, String houseName) {
-        // TODO implement me
+        var room = house.getRooms().get(path[1]);
+        if (room == null) throw new EntityNotFoundException("room", path[1]);
+
+        var device = room.getDevices().get(path[2]);
+        if (device == null) throw new EntityNotFoundException("device", path[2]);
+
+        return device.getStatus(status);
     }
 
+    // should this be Map<String, String>? or just String?
+    public Map<String, String> showConfiguration() {
+        // TODO: implement me
+        System.out.println("show config");
+        return new HashMap<>();
+    }
+
+    public Map<String, String> showConfiguration(String houseName) {
+        // TODO: implement me
+        System.out.println(String.format("show config %s", houseName));
+        return new HashMap<>();
+    }
+
+    public Map<String, String> showConfiguration(String houseName, String roomName) {
+        // TODO: implement me
+        System.out.println(String.format("show config %s %s", houseName, roomName));
+        return new HashMap<>();
+    }
+
+    public Map<String, String> showConfiguration(String houseName, String roomName, String applianceName) {
+        // TODO: implement me
+        System.out.println(String.format("show config %s %s %s", houseName, roomName, applianceName));
+        return new HashMap<>();
+    }
+
+    @Override
+    public int showEnergyUsage() {
+        return houses.values().stream()
+                .map(house -> house.getEnergyConsumption())
+                .reduce(0, (a, b) -> a + b);
+    }
+
+    @Override
+    public int showEnergyUsage(String houseName)
+        throws EntityNotFoundException
+    {
+        var house = houses.get(houseName);
+        if (house == null) throw new EntityNotFoundException("house", houseName);
+
+        return house.getEnergyConsumption();
+    }
+
+    @Override
+    public int showEnergyUsage(String houseName, String roomName)
+        throws EntityNotFoundException
+    {
+        var house = houses.get(houseName);
+        if (house == null) throw new EntityNotFoundException("house", houseName);
+
+        var room = house.getRooms().get(roomName);
+        if (room == null) throw new EntityNotFoundException("room", roomName);
+
+        return room.getEnergyConsumption();
+    }
+
+    @Override
+    public int showEnergyUsage(String houseName, String roomName, String applianceName)
+        throws EntityNotFoundException
+    {
+        var house = houses.get(houseName);
+        if (house == null) throw new EntityNotFoundException("house", houseName);
+
+        var room = house.getRooms().get(roomName);
+        if (room == null) throw new EntityNotFoundException("room", roomName);
+
+        var appliance = room.getDevices().get(applianceName);
+        if (appliance == null || appliance instanceof Sensor) throw new EntityNotFoundException("appliance", applianceName);
+
+        return ((Appliance) appliance).getEnergyConsumption();
+    }
 }
 

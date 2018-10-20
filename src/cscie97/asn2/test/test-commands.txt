@@ -1,0 +1,54 @@
+# define a new house instance with identifier house1 and street address
+define house house1 address "1 Story Street, Cambridge, MA"
+
+# define a new room instance and attach to a house, contains 2 windows
+define room kitchen1 floor 1 type kitchen house house1 windows 2
+
+# define a new occupant
+define occupant martin_fowler type adult
+
+# add Martin Fowler as an occupant to house1
+add occupant martin_fowler to_house house1
+
+# create a new sensor in a room
+define sensor smoke_detector1 type smoke_detector room house1:kitchen1
+
+# create a new appliance instance
+define appliance oven1 type oven room house1:kitchen1 energy-use 500
+
+# turn the oven on and set the temperature to 350 degrees
+set appliance house1:kitchen1:oven1 status power value ON
+set appliance house1:kitchen1:oven1 status temperature value 350
+
+# show the temperature of the oven
+show appliance house1:kitchen1:oven1 status temperature
+
+# show all state for the oven
+show appliance house1:kitchen1:oven1
+
+# show all state for the smoke detector
+show sensor house1:kitchen1:smoke_detector1
+
+# show configurations for all houses
+show configuration
+
+# show the configuration for the house1
+show configuration house1
+
+# show configuration of the kitchen1
+show configuration house1:kitchen1
+
+# show configuration of the oven1
+show configuration house1:kitchen1:oven1
+
+# show current energy consumption of all houses
+show energy-use
+
+# show current energy consumption of the house
+show energy-use house1
+
+# show current energy consumption of the house1:kitchen1
+show energy-use house1:kitchen1
+
+# show current energy consumption of the house1:kitchen1:oven1
+show energy-use house1:kitchen1:oven1

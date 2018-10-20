@@ -1,4 +1,4 @@
-package model.cscie97.asn2.housemate.model;
+package cscie97.asn2.housemate.model;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,89 +1,66 @@
-package model.cscie97.asn2.housemate.model;
+package cscie97.asn2.housemate.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
-
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- *
- * @generated
- */
 
 public class Room {
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    private RoomType type;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    private int floor;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
     private String name;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
+    private int floor;
+    private RoomType type;
     private int windows;
+    private Map<String, Device> devices = new HashMap<>();
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+    public String getName() {
+        return name;
+    }
 
-    public Set<Device> device;
+    public int getFloor() {
+        return floor;
+    }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     */
-    public Room() {
-        super();
+    public RoomType getType() {
+        return type;
+    }
+
+    public int getWindows() {
+        return windows;
+    }
+
+    public Map<String, Device> getDevices() {
+        return devices;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
+     * @param name    - the name of the room unique within a house. ex: "house1:room1"
+     * @param floor   - the floor of the house. Base level is 0.
+     * @param type    - the type of room. ex: Living Room, Bedroom etc.
+     * @param windows - the number of windows in the room
      */
+    public Room(String name, int floor, RoomType type, int windows) {
+        this.name = name;
+        this.floor = floor;
+        this.type = type;
+        this.windows = windows;
+    }
 
+    /**
+     * @return the amount of energy in Watts of all of the appliances in the room.
+     */
     public int getEnergyConsumption() {
-        // TODO implement me
-        return 0;
+        int sum = 0;
+
+        for (var device : devices.values()) {
+            if (device instanceof Appliance) {
+                sum += ((Appliance) device).getEnergyConsumption();
+            }
+        }
+
+        return sum;
     }
 
+    public void addDevice(String name, Device device) {
+        devices.put(name, device);
+    }
 }
 

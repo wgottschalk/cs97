@@ -1,112 +1,45 @@
-package model.cscie97.asn2.housemate.model;
+package cscie97.asn2.housemate.model;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- *
- * @generated
- */
+import java.util.Map;
+
 public interface ModelService {
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+     void addOccupantToHouse(String occupantName, String houseName)
+        throws EntityNotFoundException;
 
-    public void addOccupantToHouse(String ocupantName, String houseName);
+     String createAppliance(String name, ApplianceType type, String room, int energyUsage)
+        throws EntityAlreadyExistsException, EntityNotFoundException;
+     String createHouse(String name, String address)
+        throws EntityAlreadyExistsException;
+     String createOccupant(String name, OccupantType type)
+        throws EntityAlreadyExistsException;
+     String createRoom(String name, int floor, RoomType type, String houseName, int windows)
+        throws EntityAlreadyExistsException, EntityNotFoundException;
+     String createSensor(String name, SensorType type, String room)
+        throws EntityAlreadyExistsException, EntityNotFoundException;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
+     boolean setDeviceStatus(String name, String status, String value)
+        throws EntityNotFoundException;
+     Map<String, String> showDeviceStatus(String name)
+        throws EntityNotFoundException;
+     String showDeviceStatus(String name, String status)
+        throws EntityNotFoundException;
 
-    public String createAppliance(String name, ApplianceType type, String room, int energyUsage);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public String createHouse(String name);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public String createOccupant(String name, OccupantType type);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public String createRoom(String name, int floor, RoomType type, String houseName, int windows);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public String createSensor(String name, SensorType type, String room);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public void setDeviceStatus();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public void showConfiguration();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public void showDeviceStatus();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
-    public void showEnergyUsage();
+    // should this be Map<String, String>? or just String?
+     Map<String, String> showConfiguration();
+     Map<String, String> showConfiguration(String houseName)
+        throws EntityNotFoundException;
+     Map<String, String> showConfiguration(String houseName, String roomName)
+        throws EntityNotFoundException;
+     Map<String, String> showConfiguration(String houseName, String roomName, String applianceName)
+        throws EntityNotFoundException;
 
 
+     int showEnergyUsage();
+     int showEnergyUsage(String houseName)
+        throws EntityNotFoundException;
+     int showEnergyUsage(String houseName, String roomName)
+        throws EntityNotFoundException;
+     int showEnergyUsage(String houseName, String roomName, String applianceName)
+        throws EntityNotFoundException;
 }
 

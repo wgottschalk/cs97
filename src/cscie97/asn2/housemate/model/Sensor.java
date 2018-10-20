@@ -1,32 +1,27 @@
-package model.cscie97.asn2.housemate.model;
+package cscie97.asn2.housemate.model;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- *
- * @generated
- */
 
 public class Sensor extends Device {
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
-     */
-
     private SensorType sensorType;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     */
-    public Sensor() {
-        super();
+    public SensorType getSensorType() {
+        return sensorType;
     }
 
+    /**
+     *
+     * @param name - name of the sensor. must be unique
+     * @param room - room in which the sensor is located
+     * @param type - the type of sensor
+     */
+    public Sensor(String name, Room room, SensorType type) {
+        super(name, room);
+        this.sensorType = type;
+    }
+
+    @Override
+    public void captureData() {
+        System.out.println(String.format("%s is capturing data...", getName()));
+    }
 }
 
