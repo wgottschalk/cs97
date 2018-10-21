@@ -1,31 +1,19 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
 
+import cscie97.asn2.housemate.model.ModelService;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Trigger a series of events when an occupant walks into a room
+ * TODO: what are those events???
  */
 
 public class OccupantDetectedCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public OccupantDetectedCommand(){
-		super();
+	public OccupantDetectedCommand(ModelService model){
+		this.model = model;
 	}
 
 	/**

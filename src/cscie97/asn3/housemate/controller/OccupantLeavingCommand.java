@@ -1,31 +1,18 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Takes a series of actions when an occupant leaves a room.
  */
 
 public class OccupantLeavingCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public OccupantLeavingCommand(){
-		super();
+	public OccupantLeavingCommand(ModelService model){
+		this.model = model;
 	}
 
 	/**

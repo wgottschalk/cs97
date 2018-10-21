@@ -1,31 +1,19 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Finds the location of an occupant via the knowledge graph
+ * if no occupant is present, a message is logged.
  */
 
 public class LocationQueryCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public LocationQueryCommand(){
-		super();
+	public LocationQueryCommand(ModelService model){
+	    this.model = model;
 	}
 
 	/**

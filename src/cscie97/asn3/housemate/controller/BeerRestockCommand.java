@@ -1,31 +1,20 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
 
+
+import cscie97.asn2.housemate.model.ModelService;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * This command will ask the user if they would like their beer
+ * restocked if it gets low.
  */
 
 public class BeerRestockCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public BeerRestockCommand(){
-		super();
+	public BeerRestockCommand(ModelService model){
+		this.model = model;
 	}
 
 	/**

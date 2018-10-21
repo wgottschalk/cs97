@@ -1,31 +1,18 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Sets an occupants status to active if they become active
  */
 
 public class OccupantActiveCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public OccupantActiveCommand(){
-		super();
+	public OccupantActiveCommand(ModelService model){
+		this.model = model;
 	}
 
 	/**

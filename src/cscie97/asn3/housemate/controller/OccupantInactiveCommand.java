@@ -1,31 +1,17 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Sets an occupants status to inactive if they become inactive (sleep)
  */
 
-public class OccupantInactiveCommand implements Command
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+public class OccupantInactiveCommand implements Command {
+
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public OccupantInactiveCommand(){
-		super();
+	public OccupantInactiveCommand(ModelService model){
+		this.model = model;
 	}
 
 	/**

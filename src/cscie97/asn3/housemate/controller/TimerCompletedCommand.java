@@ -1,43 +1,31 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Shuts off the oven when the timer is complete
  */
 
-public class TimerCompletedCommand implements Command
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private ModelService model;
+public class TimerCompletedCommand implements Command {
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public TimerCompletedCommand(){
-		super();
-	}
+    private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public void execute() {
-		// TODO implement me
-	}
+    public TimerCompletedCommand(ModelService model){
+        this.model = model;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!--  end-user-doc  -->
+     *
+     * @generated
+     * @ordered
+     */
+
+    public void execute() {
+        // TODO implement me
+    }
 
 }
 

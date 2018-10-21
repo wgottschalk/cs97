@@ -7,7 +7,7 @@ package cscie97.asn3.housemate.controller;
  * <!--  end-user-doc  -->
  * @generated
  */
-public  interface HousemateController 
+public  interface ControllerService
 {
 
 }

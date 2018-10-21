@@ -1,43 +1,37 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Commmand used to open a door in an given room.
+ * A Door must be present in the room.
+ * Only one door in a room is allowed to be open at a time.
  */
+public class OpenDoorCommand implements Command {
 
-public class OpenDoorCommand implements Command
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private ModelService model;
+    private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public OpenDoorCommand(){
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!--  end-user-doc  -->
+     *
+     * @generated
+     */
+    public OpenDoorCommand(ModelService model) {
+        this.model = model;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public void execute() {
-		// TODO implement me
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!--  end-user-doc  -->
+     *
+     * @generated
+     * @ordered
+     */
+    public void execute() {
+        // TODO implement me
+    }
 
 }
 

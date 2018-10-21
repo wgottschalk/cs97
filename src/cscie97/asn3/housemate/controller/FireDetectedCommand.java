@@ -1,43 +1,32 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Sets off a series of tasks if a fire is detected
+ * All doors will open, the fire department will also be alerted
  */
 
-public class FireDetectedCommand implements Command
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private ModelService model;
+public class FireDetectedCommand implements Command {
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public FireDetectedCommand(){
-		super();
-	}
+    private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public void execute() {
-		// TODO implement me
-	}
+    public FireDetectedCommand(ModelService model) {
+        this.model = model;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!--  end-user-doc  -->
+     *
+     * @generated
+     * @ordered
+     */
+
+    public void execute() {
+        // TODO implement me
+    }
 
 }
 

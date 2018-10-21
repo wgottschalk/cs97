@@ -1,31 +1,18 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * This can arbitarily set the status on any device.
+ * TODO: This command will trigger the notify observers event???
  */
 
 public class SetDeviceStatusCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public SetDeviceStatusCommand(){
-		super();
+	public SetDeviceStatusCommand(ModelService model){
+	    this.model = model;
 	}
 
 	/**

@@ -2,6 +2,7 @@ package cscie97.asn2.housemate.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  * It implements the ModelService interface.
  */
 
-public class HouseMateModelService implements ModelService {
+public class HouseMateModelService extends Observable implements ModelService {
 
     //    private KnowledgeGraph knowledgeGraph = KnowledgeGraph.getInstance();
     private String authToken;
@@ -135,7 +136,7 @@ public class HouseMateModelService implements ModelService {
     }
 
     @Override
-    public boolean setDeviceStatus(String name, String status, String value)
+    public boolean setDeviceStatus(String name, String status, String value, boolean shouldNotify)
         throws EntityNotFoundException
     {
         var path = name.split(":");
@@ -149,6 +150,18 @@ public class HouseMateModelService implements ModelService {
         if (device == null) throw new EntityNotFoundException("device", path[2]);
 
         device.setStatus(status, value);
+        var message = new Message(
+            house.getName(),
+            room.getName(),
+            device.getName(),
+            status,
+            value
+        );
+
+        if (shouldNotify) {
+            setChanged();
+            notifyObservers(message);
+        }
         return true;
     }
 

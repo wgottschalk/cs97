@@ -17,7 +17,7 @@ public interface ModelService {
      String createSensor(String name, SensorType type, String room)
         throws EntityAlreadyExistsException, EntityNotFoundException;
 
-     boolean setDeviceStatus(String name, String status, String value)
+     boolean setDeviceStatus(String name, String status, String value, boolean shouldNotify)
         throws EntityNotFoundException;
      Map<String, String> showDeviceStatus(String name)
         throws EntityNotFoundException;

@@ -1,31 +1,19 @@
 package cscie97.asn3.housemate.controller;
-import model.ModelService;
+import cscie97.asn2.housemate.model.ModelService;
+
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * This command turns off all of the lights in a given room.
+ * If no light are present then nothing happens.
  */
 
 public class LightsOffCommand implements Command
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private ModelService model;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public LightsOffCommand(){
-		super();
+	public LightsOffCommand(ModelService model){
+	    this.model = model;
 	}
 
 	/**

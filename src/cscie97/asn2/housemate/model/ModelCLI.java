@@ -107,7 +107,7 @@ public class ModelCLI {
                 var devicePath = parts[2];
                 var statusName = parts[4];
                 var value = parts[6];
-                modelService.setDeviceStatus(devicePath, statusName, value);
+                modelService.setDeviceStatus(devicePath, statusName, value, true);
                 break;
             }
             case "show":
