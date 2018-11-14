@@ -1,6 +1,9 @@
 package cscie97.asn2.housemate.model;
 
+import cscie97.asn1.knowledge.engine.Triple;
+
 import java.util.Map;
+import java.util.Set;
 
 public interface ModelService {
      void addOccupantToHouse(String occupantName, String houseName)
@@ -41,5 +44,12 @@ public interface ModelService {
         throws EntityNotFoundException;
      int showEnergyUsage(String houseName, String roomName, String applianceName)
         throws EntityNotFoundException;
+
+     Map<String, House> getHouses();
+     Map<String, Occupant> getOccupants();
+     Map<String, Device> getDevices(String roomPath);
+
+     void updateOccupantLocation(Occupant occupant, String roomName);
+     Set<Triple> findOccupant(String occupantName);
 }
 

@@ -1,6 +1,6 @@
 package cscie97.asn3.housemate.controller;
 
-import cscie97.asn2.housemate.model.ModelService;
+import cscie97.asn2.housemate.model.*;
 
 
 /**
@@ -12,26 +12,35 @@ public class OpenDoorCommand implements Command {
 
     private ModelService model;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     */
     public OpenDoorCommand(ModelService model) {
         this.model = model;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!--  end-user-doc  -->
-     *
-     * @generated
-     * @ordered
+     * @param context
      */
-    public void execute() {
-        // TODO implement me
-    }
+    public void execute(Context context) {
+        var room = context.getRoomPath();
+        var devices = model.getDevices(room);
 
+        for (var device : devices.values()) {
+            if (!(device instanceof Appliance))  continue;
+
+            var door = (Appliance) device;
+            if (door.getApplianceType() != ApplianceType.DOOR) continue;
+            if (door.getStatus("state") == "open") continue;
+
+            var doorPath = room + door.getName();
+            try {
+                model.setDeviceStatus(doorPath, "state", "open", false);
+
+            } catch (Exception e) {
+                // The device should always exist since we need it to set its status
+                continue;
+            }
+
+            System.out.println("The door is open in room: " + room);
+        }
+    }
 }
 

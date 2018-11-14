@@ -1,8 +1,12 @@
 package cscie97.asn2.housemate.model;
 
+import cscie97.asn1.knowledge.engine.KnowledgeGraph;
+import cscie97.asn1.knowledge.engine.Triple;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Set;
 
 
 /**
@@ -12,10 +16,10 @@ import java.util.Observable;
 
 public class HouseMateModelService extends Observable implements ModelService {
 
-    //    private KnowledgeGraph knowledgeGraph = KnowledgeGraph.getInstance();
+    private KnowledgeGraph knowledgeGraph = KnowledgeGraph.getInstance();
     private String authToken;
-    public Map<String, House> houses = new HashMap<>();
-    public Map<String, Occupant> occupants = new HashMap<>();
+    private Map<String, House> houses = new HashMap<>();
+    private Map<String, Occupant> occupants = new HashMap<>();
     private static ModelService instance;
 
     private HouseMateModelService() {
@@ -150,7 +154,7 @@ public class HouseMateModelService extends Observable implements ModelService {
         if (device == null) throw new EntityNotFoundException("device", path[2]);
 
         device.setStatus(status, value);
-        var message = new Message(
+        var message = new Context(
             house.getName(),
             room.getName(),
             device.getName(),
@@ -268,6 +272,42 @@ public class HouseMateModelService extends Observable implements ModelService {
         if (appliance == null || appliance instanceof Sensor) throw new EntityNotFoundException("appliance", applianceName);
 
         return ((Appliance) appliance).getEnergyConsumption();
+    }
+
+    @Override
+    public Map<String, House> getHouses() {
+        return houses;
+    }
+
+    @Override
+    public Map<String, Occupant> getOccupants() {
+        return occupants;
+    }
+
+    @Override
+    public Map<String, Device> getDevices(String roomPath) {
+        var path = roomPath.split(":");
+        var house = houses.get(path[0]);
+        if (house == null) {
+            return null;
+        }
+
+        var room = house.getRooms().get(path[1]);
+        if (room == null) {
+            return null;
+        }
+
+        return room.getDevices();
+    }
+
+    @Override
+    public void updateOccupantLocation(Occupant occupant, String roomName) {
+        knowledgeGraph.importTriple(occupant.getName(), "is_located_in", roomName);
+    }
+
+    @Override
+    public Set<Triple> findOccupant(String occupantName) {
+        return knowledgeGraph.executeQuery(occupantName, "is_located_in", "?");
     }
 }
 

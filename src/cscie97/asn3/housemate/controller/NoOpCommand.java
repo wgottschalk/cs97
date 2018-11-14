@@ -1,5 +1,6 @@
 package cscie97.asn3.housemate.controller;
 
+import cscie97.asn2.housemate.model.Context;
 import cscie97.asn2.housemate.model.ModelService;
 
 /**
@@ -17,7 +18,7 @@ public class NoOpCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Context context) {
         System.out.println("I'm sorry. I was unable to process your request.");
     }
 }

@@ -1,6 +1,6 @@
 package cscie97.asn3.housemate.controller;
 
-import cscie97.asn2.housemate.model.Message;
+import cscie97.asn2.housemate.model.Context;
 import cscie97.asn2.housemate.model.ModelService;
 
 import java.util.Observable;
@@ -13,7 +13,8 @@ import java.util.Observer;
  * enforce domain boundaries.
  */
 public class HousemateControllerService implements ControllerService, Observer {
-    private HousemateControllerService() { }
+    private HousemateControllerService() {
+    }
 
     /**
      * registers the Controller Service with the model service before returning the instance
@@ -29,15 +30,16 @@ public class HousemateControllerService implements ControllerService, Observer {
 
     /**
      * update will trigger when an appliance or sensor triggers and event
-     * @param obs - the observable which triggered the event (Housemate Model Service)
+     *
+     * @param obs  - the observable which triggered the event (Housemate Model Service)
      * @param data - Any additional info that a device needs to send to the controller
      */
     @Override
     public void update(Observable obs, Object data) {
-        var model = (ModelService)obs;
-        var msg = (Message)data;
-        var command = CommandFactory.createCommand(model, msg);
-
+        var model = (ModelService) obs;
+        var msg = (Context) data;
+        var command = CommandFactory.createCommand(model, msg.getStatus());
+        command.execute(msg);
     }
 
 }

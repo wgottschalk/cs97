@@ -13,13 +13,14 @@ add occupant martin_fowler to_house house1
 # create a new sensor in a room
 define sensor smoke_detector1 type smoke_detector room house1:kitchen1
 define sensor ava1 type Ava room house1:kitchen1
+define sensor camera1 type Camera room house1:kitchen1
 
 # create a new appliance instance
 define appliance oven1 type oven room house1:kitchen1 energy-use 500
 define appliance door1 type door room house1:kitchen1 energy-use 0
 
 # turn the oven on and set the temperature to 350 degrees
-set appliance house1:kitchen1:oven1 status power value ON
+set appliance house1:kitchen1:oven1 status mode value bake
 set appliance house1:kitchen1:oven1 status temperature value 350
 
 # show the temperature of the oven
@@ -43,4 +44,14 @@ show energy-use house1:kitchen1
 # show current energy consumption of the house1:kitchen1:oven1
 show energy-use house1:kitchen1:oven1
 
-set sensor house1:kitchen1:ava1 status LISTENING value "open door"
+# oven is now off
+set appliance house1:kitchen1:oven1 status timer_complete value mode
+show appliance house1:kitchen1:oven1 status mode
+
+set sensor house1:kitchen1:camera1 status occupant_detected value martin_fowler
+set sensor house1:kitchen1:camera1 status occupant_inactive value martin_fowler
+set sensor house1:kitchen1:camera1 status occupant_active value martin_fowler
+set sensor house1:kitchen1:camera1 status occupant_leaving value martin_fowler
+
+set sensor house1:kitchen1:ava1 status generic_command value "open door"
+set sensor house1:kitchen1:smoke_detector1 status mode value fire

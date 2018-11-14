@@ -27,5 +27,9 @@ public class Appliance extends Device {
     public void captureData() {
         System.out.println(String.format("%s is capturing data...", getName()));
     }
+
+    public ApplianceType getApplianceType() {
+        return applianceType;
+    }
 }
 
